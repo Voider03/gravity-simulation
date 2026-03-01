@@ -36,16 +36,17 @@ class Body:
             if distance == 0:
               continue
             elif distance < 10:
-                total_mass = self.mass + body.mass
+                if self not in to_remove:
+                  total_mass = self.mass + body.mass
 
-                self.velocity = (
-                  self.mass * self.velocity +
-                  body.mass * body.velocity
-                  ) / total_mass
+                  self.velocity = (
+                    self.mass * self.velocity +
+                    body.mass * body.velocity
+                    ) / total_mass
 
-                self.mass = total_mass
-                to_remove.append(body)
-                continue
+                  self.mass = total_mass
+                  to_remove.append(body)
+                  continue
 
             direction = r / distance
             gravity = self.calculateGravity(distance, body_mass)

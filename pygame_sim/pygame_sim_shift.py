@@ -36,6 +36,7 @@ class Body:
             if distance == 0:
               continue
             elif distance < 10:
+              if self not in to_remove:
                 total_mass = self.mass + body.mass
 
                 self.velocity = (

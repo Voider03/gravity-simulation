@@ -1,19 +1,11 @@
-import pprint
+import pygame as pg
 import numpy as np
-
-time = int(input("How many seconds: "))
-
-space = [["", "", "", "", ""], 
-        ["", "", "", "", ""], 
-        ["", "", "", "", ""], 
-        ["", "", "", "", ""], 
-        ["", "", "", "", ""]]
 
 GRAVITY_CONSTANT = 1
 
-to_remove = []
-
 dt = 0.05
+
+to_remove = []
 
 class Body:
     def __init__(self, mass, x, y):
@@ -43,7 +35,7 @@ class Body:
 
             if distance == 0:
               continue
-            elif distance < 0.5:
+            elif distance < 10:
                 total_mass = self.mass + body.mass
 
                 self.velocity = (
@@ -75,6 +67,7 @@ class Body:
 bodies = []
 
 def askBodies():
+    time = int(input("How many seconds: "))
     bodies_num = int(input("How many bodies: "))
 
     for i in range(bodies_num):
@@ -84,46 +77,51 @@ def askBodies():
 
         bodies.append(Body(mass, x, y))
 
+    return time
+
 def main():
-    askBodies()
-    for i in range(time):
-      space = [["", "", "", "", ""], 
-        ["", "", "", "", ""], 
-        ["", "", "", "", ""], 
-        ["", "", "", "", ""], 
-        ["", "", "", "", ""]]
+    time = askBodies()
+    running = True  
 
-      for body in bodies:
-        body.calculatePosition()
+    pg.font.init()
+    font = pg.font.SysFont("Arial", 20)
 
-      for body in to_remove:
-        if body in bodies:
-            bodies.remove(body)
+    window = pg.display.set_mode((500, 500))
+    pg.display.set_caption("SIMULATION") 
 
-      to_remove.clear()
+    clock = pg.time.Clock()
+    elapsed = 0 
+    while running and elapsed < time:
+
+          dt_real = clock.tick(240) / 1000
+          elapsed += dt_real
+
+          for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+
+          window.fill((0,0,0))
+
+          time_text = font.render(f"Time: {elapsed:.2f}s", True, (255,255,255))
+          window.blit(time_text, (10, 10))
+
+          for body in bodies:
+            body.calculatePosition()
+
+          for body in to_remove:
+              if body in bodies:
+                bodies.remove(body)
+
+          to_remove.clear()
     
-      for body in bodies:
-        body.updateVel()
+          for body in bodies:
+            body.updateVel()
+            
+          for body in bodies:
+                  body.updatePos()
 
-      for body in bodies:
-        body.updatePos()
+                  pg.draw.circle(window, (255, 255, 255), body.position.astype(int), 5)
 
-        x = round(body.position[0])
-        y = round(body.position[1])
-
-        if x > 4:
-            x = 4
-        elif x < 0:
-            x = 0
-        if y > 4:
-            y = 4
-        elif y < 0:
-            y = 0
-
-        if space[y][x] != "0":
-          space[y][x] = "0"
-      print("\n\n\n\n\n")
-
-      pprint.pprint(space)
+          pg.display.update()
 
 main()

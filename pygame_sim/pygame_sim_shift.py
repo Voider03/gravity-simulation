@@ -71,11 +71,11 @@ def askBodies():
     bodies_num = int(input("How many bodies: "))
 
     for i in range(bodies_num):
-        mass = int(input("Enter the mass of body: "))
+        mass = float(input("Enter the mass of body: "))
         x = int(input("Enter the x of body: "))
         y = int(input("Enter the y of body: "))
-        shiftx = int(input("Enter the shift x of body: "))
-        shifty = int(input("Enter the shift y of body: "))
+        shiftx = float(input("Enter the shift x of body: "))
+        shifty = float(input("Enter the shift y of body: "))
 
         bodies.append(Body(mass, x, y, shiftx, shifty))
 

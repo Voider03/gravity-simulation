@@ -71,7 +71,7 @@ def askBodies():
     bodies_num = int(input("How many bodies: "))
 
     for i in range(bodies_num):
-        mass = int(input("Enter the mass of body: "))
+        mass = float(input("Enter the mass of body: "))
         x = int(input("Enter the x of body: "))
         y = int(input("Enter the y of body: "))
 

@@ -10,6 +10,9 @@ to_remove = []
 class Body:
     def __init__(self, mass, x, y, shiftx, shifty):
         self.mass = mass
+
+        self.size = (self.mass ** (1/3)) * 0.8
+
         self.x = x
         self.y = y
 
@@ -35,7 +38,7 @@ class Body:
 
             if distance == 0:
               continue
-            elif distance < 10:
+            elif distance < (self.size + body.size):
               if self not in to_remove:
                 total_mass = self.mass + body.mass
 
@@ -45,6 +48,7 @@ class Body:
                   ) / total_mass
 
                 self.mass = total_mass
+                self.size = (self.mass ** (1/3)) * 0.8
                 to_remove.append(body)
                 continue
 
@@ -123,7 +127,7 @@ def main():
           for body in bodies:
                   body.updatePos()
 
-                  pg.draw.circle(window, (255, 255, 255), body.position.astype(int), 5)
+                  pg.draw.circle(window, (255, 255, 255), body.position.astype(int), body.size)
 
           pg.display.update()
 

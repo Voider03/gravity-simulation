@@ -94,38 +94,46 @@ def main():
     window = pg.display.set_mode((500, 500))
     pg.display.set_caption("SIMULATION") 
 
+    pause = False
+
     clock = pg.time.Clock()
     elapsed = 0 
     while running and elapsed < time:
 
           dt_real = clock.tick(240) / 1000
-          elapsed += dt_real
 
           for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_p:
+                  pause = False if pause == True else True
 
           window.fill((0,0,0))
 
           time_text = font.render(f"Time: {elapsed:.2f}s", True, (255,255,255))
           window.blit(time_text, (10, 10))
 
-          for body in bodies:
-            body.calculatePosition()
+          if not pause:
+            elapsed += dt_real
 
-          for body in to_remove:
+            for body in bodies:
+              body.calculatePosition()
+
+            for body in to_remove:
               if body in bodies:
                 bodies.remove(body)
 
-          to_remove.clear()
+            to_remove.clear()
     
-          for body in bodies:
-            body.updateVel()
+            for body in bodies:
+              body.updateVel()
             
-          for body in bodies:
+            for body in bodies:
                   body.updatePos()
 
-                  pg.draw.circle(window, (255, 255, 255), body.position.astype(int), body.size)
+          for body in bodies:
+            pg.draw.circle(window, (255, 255, 255), body.position.astype(int), body.size)
 
           pg.display.update()
 

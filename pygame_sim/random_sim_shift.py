@@ -1,6 +1,5 @@
 import pygame as pg
 import numpy as np
-import random
 
 GRAVITY_CONSTANT = 1
 
@@ -75,19 +74,13 @@ bodies = []
 def askBodies():
     time = int(input("How many seconds: "))
     bodies_num = int(input("How many bodies: "))
-    min_mass = float(input("minimum mass of each body: "))
-    max_mass = float(input("maximum mass of each body: "))
-    min_shiftx = float(input("minimum shift in x direction: "))
-    max_shiftx = float(input("maximum shift in x direction: "))
-    min_shifty = float(input("minimum shift in y direction: "))
-    max_shifty = float(input("maximum shift in y direction: "))
 
     for i in range(bodies_num):
-        mass = random.uniform(min_mass, max_mass)
-        x = random.randint(0, 499)
-        y = random.randint(0, 499)
-        shiftx = random.uniform(min_shiftx, max_shiftx)
-        shifty = random.uniform(min_shifty, max_shifty)
+        mass = float(input("Enter the mass of body: "))
+        x = int(input("Enter the x of body: "))
+        y = int(input("Enter the y of body: "))
+        shiftx = float(input("Enter the shift x of body: "))
+        shifty = float(input("Enter the shift y of body: "))
 
         bodies.append(Body(mass, x, y, shiftx, shifty))
 

@@ -8,6 +8,15 @@ dt = 0.05
 
 to_remove = []
 
+time = int(input("How many seconds: "))
+bodies_num = int(input("How many bodies: "))
+min_mass = float(input("minimum mass of each body: "))
+max_mass = float(input("maximum mass of each body: "))
+min_shiftx = float(input("minimum shift in x direction: "))
+max_shiftx = float(input("maximum shift in x direction: "))
+min_shifty = float(input("minimum shift in y direction: "))
+max_shifty = float(input("maximum shift in y direction: "))
+
 class Body:
     def __init__(self, mass, x, y, shiftx, shifty):
         self.mass = mass
@@ -73,14 +82,6 @@ class Body:
 bodies = []
 
 def askBodies():
-    time = int(input("How many seconds: "))
-    bodies_num = int(input("How many bodies: "))
-    min_mass = float(input("minimum mass of each body: "))
-    max_mass = float(input("maximum mass of each body: "))
-    min_shiftx = float(input("minimum shift in x direction: "))
-    max_shiftx = float(input("maximum shift in x direction: "))
-    min_shifty = float(input("minimum shift in y direction: "))
-    max_shifty = float(input("maximum shift in y direction: "))
 
     for i in range(bodies_num):
         mass = random.uniform(min_mass, max_mass)
@@ -92,6 +93,9 @@ def askBodies():
         bodies.append(Body(mass, x, y, shiftx, shifty))
 
     return time
+
+def spawnBody(x, y):
+    bodies.append(Body(random.uniform(min_mass, max_mass), int(x), int(y), random.uniform(min_shiftx, max_shiftx), random.uniform(min_shifty, max_shifty)))
 
 def main():
     time = askBodies()
@@ -113,6 +117,9 @@ def main():
           for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+            if event.type == pg.MOUSEBUTTONDOWN:
+                mouse_pos = pg.mouse.get_pos()
+                spawnBody(mouse_pos[0], mouse_pos[1])
 
           window.fill((0,0,0))
 
